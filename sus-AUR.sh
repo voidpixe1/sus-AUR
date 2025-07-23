@@ -1,8 +1,5 @@
 #!/bin/bash
-RED="\e[31m"
-GREEN="\e[32m"
 RESET="\e[0m"
-BLUE="\e[34m"
 
 search_pacman() {
     echo -e "${YELLOW}Searching official repositories...${RESET}"
@@ -67,13 +64,13 @@ Popularity: \(.Popularity)\"
 }
 
 main() {
-    echo -e "${GREEN}\033[1m┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${RESET}"
-    echo -e "${GREEN}\033[1m┃An extremely convoluted script to search for arch pkgs for absolutely zero reason but because it looks pretty┃${RESET}"
-    echo -e "${GREEN}\033[1m┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${RESET}"
-    echo -e "${BLUE}1. Search Official Repos"
+    echo -e "\e[32m\033[1m┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${RESET}"
+    echo -e "\e[32m\033[1m┃An extremely convoluted script to search for arch pkgs for absolutely zero reason but because it looks pretty┃${RESET}"
+    echo -e "\e[32m\033[1m┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${RESET}"
+    echo -e "\e[34m1. Search Official Repos"
     echo -e "2. Search local packages"
     echo -e "3. Search online AUR packages${RESET}"
-    echo -e "${RED}4. Exit${RESET}"
+    echo -e "\e[31m4. Exit${RESET}"
 
     read -rp "Choose an option: " choice
 
