@@ -1,5 +1,6 @@
 #!/bin/bash
 RESET="\e[0m"
+reset
 
 search_pacman() {
     echo -e "${YELLOW}Searching official repositories...${RESET}"
@@ -11,13 +12,8 @@ search_aur() {
     yay -Ss "$1" | awk '{print $1}' | fzf --preview-window=up:30%:wrap
 }
 
-search_online() {
-
-    echo -e "${YELLOW}Searching online AUR...${RESET}"
-    curl -s "https://aur.archlinux.org/rpc/v5/search/$1" |
-        jq -r '.results[].Name' |
-        fzf --ansi --preview='
-    pkg=$(echo {} | tr -d "\n\r")
+aur_preview() {
+    pkg="$1"
     cache_dir="${HOME}/.cache/custompkgr"
     cache_file="${cache_dir}/${pkg}.json"
 
@@ -34,7 +30,7 @@ search_online() {
 
     if [[ "$result" = "null" ]] || [ -z "$result" ]; then
         echo "No data found for: $pkg"
-        exit
+        return
     fi
 
     first_submitted=$(echo "$result" | jq ".FirstSubmitted")
@@ -44,7 +40,7 @@ search_online() {
     last_modified_fmt=$(date -d "@$last_modified" "+%Y-%m-%d %H:%M:%S")
 
     echo "$result" | jq -r "
-    \"Git Clone URL: https://aur.archlinux.org/\(.Name).git (read-only, click to copy)
+    \"Git Clone URL: https://aur.archlinux.org/\(.Name).git
 Package Base: \(.PackageBase // \"N/A\")
 Description: \(.Description // \"N/A\")
 Upstream URL: \(.URL // \"N/A\")
@@ -60,7 +56,13 @@ Popularity: \(.Popularity)\"
 
     echo "First Submitted: $first_submitted_fmt"
     echo "Last Updated: $last_modified_fmt"
-    ' --preview-window=right:60% 
+}
+
+search_online() {
+    echo -e "${YELLOW}Searching online AUR...${RESET}"
+    curl -s "https://aur.archlinux.org/rpc/v5/search/$1" |
+        jq -r '.results[].Name' |
+        fzf --ansi --preview='aur_preview {}' --preview-window=right:60%
 }
 
 main() {
